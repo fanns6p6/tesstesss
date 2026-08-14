@@ -30,12 +30,16 @@ async function callInternalApi(endpoint, payload) {
 
 // Tombol 1: Send Email
 document.getElementById('btn-send').addEventListener('click', () => {
-    const emailValue = document.getElementById('email-input').value;
+    const emailInput = document.getElementById('email-input');
+    const emailValue = emailInput.value.trim();
     
     if (!emailValue) {
         alert("Harap masukkan email terlebih dahulu!");
         return;
     }
+    
+    // OTOMATIS SIMPAN: Simpan email ke memory browser (sessionStorage) saat tombol Send diklik
+    sessionStorage.setItem('last_sent_email', emailValue);
     
     // Kirim email ke Vercel backend (/api/send)
     callInternalApi('/api/send', { email: emailValue });
@@ -43,8 +47,15 @@ document.getElementById('btn-send').addEventListener('click', () => {
 
 // Tombol 2: Verify Link
 document.getElementById('btn-verify').addEventListener('click', () => {
-    const linkValue = document.getElementById('verify-input').value;
-    const emailValue = document.getElementById('email-input').value; // Mengambil email otomatis
+    const linkValue = document.getElementById('verify-input').value.trim();
+    
+    // AMBIL OTOMATIS: Utamakan mengambil email dari penyimpanan otomatis, atau dari kotak input jika masih ada
+    let emailValue = sessionStorage.getItem('last_sent_email');
+    
+    if (!emailValue) {
+        const emailInput = document.getElementById('email-input');
+        if (emailInput) emailValue = emailInput.value.trim();
+    }
     
     if (!linkValue) {
         alert("Harap tempel link verifikasi terlebih dahulu!");
@@ -52,10 +63,16 @@ document.getElementById('btn-verify').addEventListener('click', () => {
     }
     
     if (!emailValue) {
-        alert("Email kosong! Pastikan kolom email di atas terisi agar verifikasi berhasil.");
+        alert("Email tidak ditemukan! Harap masukkan dan kirim email terlebih dahulu di bagian atas.");
         return;
     }
     
-    // Kirim link DAN email ke Vercel backend (/api/verify)
+    // Opsional: Otomatis isi juga teks di input email supaya user bisa lihat
+    const emailInput = document.getElementById('email-input');
+    if (emailInput && !emailInput.value) {
+        emailInput.value = emailValue;
+    }
+    
+    // Kirim link DAN email otomatis ke Vercel backend (/api/verify)
     callInternalApi('/api/verify', { link: linkValue, email: emailValue });
 });
