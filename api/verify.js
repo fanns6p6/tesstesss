@@ -3,15 +3,19 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { link } = req.body; // Menangkap link verifikasi dari frontend
-  const { ZNN_ACCESS_TOKEN, AM_TOKEN, AM_API_BASE } = process.env;
+  const { link, email } = req.body; 
+  const { ZNN_ACCESS_TOKEN, AM_TOKEN } = process.env;
 
   try {
-    // Memasukkan link sebagai parameter GET (contoh: ?url=https://...)
-    // Sesuaikan nama parameter 'url' dengan kebutuhan API api.znn.my.id jika berbeda
-    const url = new URL(`${AM_API_BASE}/verify`);
-    if (link) url.searchParams.append('url', link); 
+    // 1. Ambil link utuh yang ditempel oleh user dari kotak input
+    const url = new URL(link);
+    
+    // 2. Otomatis sisipkan parameter email ke dalam link tersebut
+    if (email) {
+      url.searchParams.set('email', email.trim()); 
+    }
 
+    // 3. Eksekusi URL yang sudah digabung dengan email tersebut
     const response = await fetch(url.toString(), {
       method: 'GET',
       headers: {
