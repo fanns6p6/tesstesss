@@ -9,8 +9,8 @@ export default async function handler(req, res) {
   try {
     const url = new URL(`${AM_API_BASE}/verify`);
     
-    // Memasukkan URL link dan Email sebagai parameter ke API pusat
-    if (link) url.searchParams.append('url', link); 
+    // Ubah dari 'url' menjadi 'link' sesuai permintaan API pusat
+    if (link) url.searchParams.append('link', link); 
     if (email) url.searchParams.append('email', email); 
 
     const response = await fetch(url.toString(), {
