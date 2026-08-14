@@ -7,20 +7,19 @@ export default async function handler(req, res) {
   const { ZNN_ACCESS_TOKEN, AM_TOKEN } = process.env;
 
   try {
-    // 1. Ambil link utuh yang ditempel oleh user dari kotak input
-    const url = new URL(link);
+    // Memastikan link valid
+    const targetUrl = new URL(link);
     
-    // 2. Otomatis sisipkan parameter email ke dalam link tersebut
+    // Otomatis suntikkan parameter email ke link verifikasi
     if (email) {
-      url.searchParams.set('email', email.trim()); 
+      targetUrl.searchParams.set('email', email.trim());
     }
 
-    // 3. Eksekusi URL yang sudah digabung dengan email tersebut
-    const response = await fetch(url.toString(), {
+    const response = await fetch(targetUrl.toString(), {
       method: 'GET',
       headers: {
-        'X-ZNN-Access': ZNN_ACCESS_TOKEN,
-        'X-AM-Token': AM_TOKEN,
+        'X-ZNN-Access': ZNN_ACCESS_TOKEN || '',
+        'X-AM-Token': AM_TOKEN || '',
         'Content-Type': 'application/json'
       }
     });
