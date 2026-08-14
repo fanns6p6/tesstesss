@@ -1,6 +1,7 @@
+// Fungsi mengirim request dengan payload JSON ke internal API
 async function callInternalApi(endpoint, payload) {
     const outputBox = document.getElementById('response-output');
-    outputBox.textContent = `Memproses ke server...\nMohon tunggu sebentar...`;
+    outputBox.textContent = `Memproses request ke ${endpoint}...\nMohon tunggu...`;
 
     try {
         const response = await fetch(endpoint, {
@@ -23,31 +24,27 @@ async function callInternalApi(endpoint, payload) {
         }
 
     } catch (error) {
-        outputBox.textContent = `Terjadi Kesalahan: ${error.message}`;
+        outputBox.textContent = `Error: ${error.message}`;
     }
 }
 
-// Tombol Send: Kirim email dan simpan otomatis di memori browser (Session Storage)
+// Tombol 1: Send Email
 document.getElementById('btn-send').addEventListener('click', () => {
-    const emailValue = document.getElementById('email-input').value.trim();
+    const emailValue = document.getElementById('email-input').value;
     
     if (!emailValue) {
         alert("Harap masukkan email terlebih dahulu!");
         return;
     }
     
-    // Simpan email secara otomatis ke memori lokal browser
-    sessionStorage.setItem('saved_email', emailValue);
-    
+    // Kirim email ke Vercel backend (/api/send)
     callInternalApi('/api/send', { email: emailValue });
 });
 
-// Tombol Verify: Ambil otomatis email yang tadi disimpan, gabungkan dengan link
+// Tombol 2: Verify Link
 document.getElementById('btn-verify').addEventListener('click', () => {
-    const linkValue = document.getElementById('verify-input').value.trim();
-    
-    // Ambil email yang otomatis tersimpan dari proses 'Send' sebelumnya
-    const emailValue = sessionStorage.getItem('saved_email');
+    const linkValue = document.getElementById('verify-input').value;
+    const emailValue = document.getElementById('email-input').value; // Mengambil email otomatis
     
     if (!linkValue) {
         alert("Harap tempel link verifikasi terlebih dahulu!");
@@ -55,10 +52,10 @@ document.getElementById('btn-verify').addEventListener('click', () => {
     }
     
     if (!emailValue) {
-        alert("Email tidak ditemukan! Harap lakukan proses 'Request Link' (Send) terlebih dahulu dengan email yang sama.");
+        alert("Email kosong! Pastikan kolom email di atas terisi agar verifikasi berhasil.");
         return;
     }
     
-    // Kirim link dan email otomatis ke backend
+    // Kirim link DAN email ke Vercel backend (/api/verify)
     callInternalApi('/api/verify', { link: linkValue, email: emailValue });
 });
