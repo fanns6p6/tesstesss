@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlightMotion Web Panel</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+        .section { margin-bottom: 25px; padding: 15px; border: 1px solid #ccc; border-radius: 8px; }
+        input { width: calc(100% - 22px); padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; }
+        .btn { padding: 10px 20px; cursor: pointer; background: #0070f3; color: white; border: none; border-radius: 5px; width: 100%; }
+        .btn:hover { background: #005bb5; }
+        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; min-height: 50px; }
+    </style>
+</head>
+<body>
+
+    <h2>AlightMotion Dashboard</h2>
+
+    <div class="section">
+        <h3>1. Request Link</h3>
+        <p>Masukkan email untuk mendapatkan link verifikasi.</p>
+        <input type="email" id="email-input" placeholder="Masukkan Email Anda..." required>
+        <button class="btn" id="btn-send">Kirim Permintaan (Send)</button>
+    </div>
+
+    <div class="section">
+        <h3>2. Verifikasi Token/Link</h3>
+        <p>Tempel link yang didapat dari email ke sini.</p>
+        <input type="text" id="verify-input" placeholder="Tempel Link Verifikasi..." required>
+        <button class="btn" id="btn-verify">Verifikasi Link (Verify)</button>
+    </div>
+
+    <h3>Status / Response:</h3>
+    <pre id="response-output">Menunggu tindakan...</pre>
+
+    <script src="app.js"></script>
+</body>
+</html>
