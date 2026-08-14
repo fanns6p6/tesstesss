@@ -3,12 +3,10 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const { email } = req.body; // Menangkap email dari frontend
+  const { email } = req.body; 
   const { ZNN_ACCESS_TOKEN, AM_TOKEN, AM_API_BASE } = process.env;
 
   try {
-    // Memasukkan email sebagai parameter GET (contoh: ?email=user@gmail.com)
-    // Sesuaikan nama parameter 'email' dengan kebutuhan API api.znn.my.id jika berbeda
     const url = new URL(`${AM_API_BASE}/send`);
     if (email) url.searchParams.append('email', email); 
 
