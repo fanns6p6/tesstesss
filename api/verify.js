@@ -4,22 +4,20 @@ export default async function handler(req, res) {
   }
 
   const { link, email } = req.body; 
-  const { ZNN_ACCESS_TOKEN, AM_TOKEN } = process.env;
+  const { ZNN_ACCESS_TOKEN, AM_TOKEN, AM_API_BASE } = process.env;
 
   try {
-    // Memastikan link valid
-    const targetUrl = new URL(link);
+    const url = new URL(`${AM_API_BASE}/verify`);
     
-    // Otomatis suntikkan parameter email ke link verifikasi
-    if (email) {
-      targetUrl.searchParams.set('email', email.trim());
-    }
+    // Memasukkan URL link dan Email sebagai parameter ke API pusat
+    if (link) url.searchParams.append('url', link); 
+    if (email) url.searchParams.append('email', email); 
 
-    const response = await fetch(targetUrl.toString(), {
+    const response = await fetch(url.toString(), {
       method: 'GET',
       headers: {
-        'X-ZNN-Access': ZNN_ACCESS_TOKEN || '',
-        'X-AM-Token': AM_TOKEN || '',
+        'X-ZNN-Access': ZNN_ACCESS_TOKEN,
+        'X-AM-Token': AM_TOKEN,
         'Content-Type': 'application/json'
       }
     });

@@ -8,13 +8,13 @@ export default async function handler(req, res) {
 
   try {
     const url = new URL(`${AM_API_BASE}/send`);
-    if (email) url.searchParams.append('email', email.trim()); 
+    if (email) url.searchParams.append('email', email); 
 
     const response = await fetch(url.toString(), {
       method: 'GET',
       headers: {
-        'X-ZNN-Access': ZNN_ACCESS_TOKEN || '',
-        'X-AM-Token': AM_TOKEN || '',
+        'X-ZNN-Access': ZNN_ACCESS_TOKEN,
+        'X-AM-Token': AM_TOKEN,
         'Content-Type': 'application/json'
       }
     });
