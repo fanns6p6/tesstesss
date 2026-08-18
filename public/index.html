@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AlightMotion Web Panel</title>
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; }
-        .section { margin-bottom: 25px; padding: 15px; border: 1px solid #ccc; border-radius: 8px; }
-        input { width: calc(100% - 22px); padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 5px; }
-        .btn { padding: 10px 20px; cursor: pointer; background: #0070f3; color: white; border: none; border-radius: 5px; width: 100%; }
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; background-color: #f9f9f9; }
+        .section { background: white; margin-bottom: 25px; padding: 20px; border: 1px solid #ddd; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        input { box-sizing: border-box; width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
+        .btn { padding: 12px 20px; cursor: pointer; background: #0070f3; color: white; border: none; border-radius: 5px; width: 100%; font-size: 16px; font-weight: bold; }
         .btn:hover { background: #005bb5; }
-        pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; min-height: 50px; }
+        pre { background: #1e1e1e; color: #00ff00; padding: 15px; border-radius: 5px; overflow-x: auto; min-height: 80px; font-size: 13px; }
     </style>
 </head>
 <body>
@@ -19,19 +19,19 @@
 
     <div class="section">
         <h3>1. Request Link</h3>
-        <p>Masukkan email untuk mendapatkan link verifikasi.</p>
-        <input type="email" id="email-input" placeholder="Masukkan Email Anda..." required>
-        <button class="btn" id="btn-send">Kirim Permintaan (Send)</button>
+        <p>Masukkan email untuk mendapatkan link verifikasi ke inbox Anda.</p>
+        <input type="email" id="email-input" placeholder="contoh@gmail.com" required>
+        <button class="btn" id="btn-send">Kirim Permintaan</button>
     </div>
 
     <div class="section">
-        <h3>2. Verifikasi Token/Link</h3>
-        <p>Tempel link yang didapat dari email ke sini.</p>
+        <h3>2. Verifikasi Token / Link</h3>
+        <p>Tempel link yang didapat dari email ke sini. <i>(Pastikan email di atas tidak dihapus)</i></p>
         <input type="text" id="verify-input" placeholder="Tempel Link Verifikasi..." required>
-        <button class="btn" id="btn-verify">Verifikasi Link (Verify)</button>
+        <button class="btn" id="btn-verify">Verifikasi Link</button>
     </div>
 
-    <h3>Status / Response:</h3>
+    <h3>Status / Response API:</h3>
     <pre id="response-output">Menunggu tindakan...</pre>
 
     <script src="app.js"></script>
